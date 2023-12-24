@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
     app: flaskdemo
   name: flaskdemo
@@ -9,39 +10,25 @@ spec:
   selector:
     matchLabels:
       app: flaskdemo
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: flaskdemo
     spec:
       containers:
-      - image: naveenr26/test:3
+      - image: naveenr26/test:2
         name: flaskdemo
-        ports:
-        - containerPort: 5000
-        livenessProbe:
-          httpGet:
-            path: /healthz  # Adjust the path based on your application
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /healthz  # Adjust the path based on your application
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
+        resources: {}
+status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: flaskdemo-service
+  name: lb-service
   labels:
-    app: flaskdemo-service
+    app: lb-service
 spec:
   type: LoadBalancer
   ports:
